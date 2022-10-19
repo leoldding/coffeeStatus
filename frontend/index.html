@@ -4,10 +4,26 @@
     <meta name = "author" content = "Leo Ding" />
     <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
     <meta charset = "utf-8">
+    <link rel = "stylesheet" type = "text/css" href = "css/index.css"/>
     <title>Coffee</title>
 </head>
 <body>
-<h1>Status: <span id="status"></span></h1>
-<a href="HTML/login.html">Login</a>
+    <h1 id="title">Is Leo at Think Coffee?</h1>
+    <div class="center vert" id="yes">
+        <p class="status">Yes</p>
+    </div>
+    <div class="center vert" id="enroute">
+        <p class="status">En Route</p>
+        <p class="substatus">ETA: <span class="substatus" id="eta">20 min</span></p>
+    </div>
+    <div class="center vert" id="no">
+        <p class="status">No</p>
+    </div>
+
+    <div class="center horiz" id="all">
+        <p class="status">Temp</p>
+    </div>
+
+    <a href="html/login.html" id="login">Admin Login</a>
 </body>
 </html>
