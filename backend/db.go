@@ -17,19 +17,13 @@ func initDB() {
 	}
 	defer db.Close()
 
-	query := "CREATE TABLE IF NOT EXISTS users(username VARCHAR(40) PRIMARY KEY, password VARCHAR(40));"
+	query := "CREATE TABLE IF NOT EXISTS sessions(sessionname VARCHAR(40) PRIMARY KEY, username VARCHAR(40));"
 	_, err = db.Exec(query)
 	if err != nil {
 		panic(err)
 	}
 
-	query = "CREATE TABLE IF NOT EXISTS sessions(sessionname VARCHAR(40) PRIMARY KEY, username VARCHAR(40));"
-	_, err = db.Exec(query)
-	if err != nil {
-		panic(err)
-	}
-
-	query = "CREATE TABLE IF NOT EXISTS admins(adminname VARCHAR(40) PRIMARY KEY, password VARCHAR(40));"
+	query = "CREATE TABLE IF NOT EXISTS admins(adminname VARCHAR(40) PRIMARY KEY, password VARCHAR(40), status INTEGER);"
 	_, err = db.Exec(query)
 	if err != nil {
 		panic(err)
