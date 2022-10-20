@@ -1,0 +1,31 @@
+version: '3.9'
+services:
+  frontend:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./frontend
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    ports:
+      - '80:3000'
+    depends_on:
+      backend:
+        condition: service_started
+  backend:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./backend
+    volumes:
+      - ./backend:/app
+    command: reflex -r "\.go$$" -s -- sh -c "go run ./"
+    environment:
+      - PGUSER=$PGUSER
+      - PGHOST=$PGHOST
+      - PGDATABASE=$PGDATABASE
+      - PGPASSWORD=$PGPASSWORD
+      - PGPORT=$PGPORT
+      - ADMINNAME=admin
+      - ADMINPASSWORD=password
+      - STATUS=enroute
