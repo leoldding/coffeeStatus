@@ -10,6 +10,11 @@
     text-align: center;
 }
 
+.hide
+{
+    display: none;
+}
+
 .status
 {
     font-size: 8vw;
@@ -18,7 +23,6 @@
 .substatus
 {
     font-size: 4vw;
-    display: none;
 }
 
 .center
@@ -30,11 +34,6 @@
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 4vh;
-}
-
-.dim
-{
-    filter: brightness(50%);
 }
 
 .horiz
@@ -60,6 +59,11 @@
 #all
 {
     background-color: mediumturquoise;
+}
+
+.dim
+{
+    background-color: #4f4f4f;
 }
 
 #login
