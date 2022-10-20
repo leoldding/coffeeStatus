@@ -8,14 +8,16 @@ import (
 	"os"
 )
 
+var db *sql.DB
+var err error
+
 func initDB() {
 	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+"password=%s dbname=%s sslmode=disable", os.Getenv("PGHOST"), os.Getenv("PGPORT"), os.Getenv("PGUSER"), os.Getenv("PGPASSWORD"), os.Getenv("PGDATABASE"))
 
-	db, err := sql.Open("postgres", psqlInfo)
+	db, err = sql.Open("postgres", psqlInfo)
 	if err != nil {
 		panic(err)
 	}
-	defer db.Close()
 
 	query := "CREATE TABLE IF NOT EXISTS sessions(sessionname VARCHAR(40) PRIMARY KEY, username VARCHAR(40));"
 	_, err = db.Exec(query)
@@ -23,7 +25,7 @@ func initDB() {
 		panic(err)
 	}
 
-	query = "CREATE TABLE IF NOT EXISTS admins(adminname VARCHAR(40) PRIMARY KEY, password VARCHAR(40), status INTEGER);"
+	query = "CREATE TABLE IF NOT EXISTS admins(adminname VARCHAR(40) PRIMARY KEY, password VARCHAR(40), status VARCHAR(40));"
 	_, err = db.Exec(query)
 	if err != nil {
 		panic(err)
@@ -36,7 +38,9 @@ func initDB() {
 		log.Fatal(err)
 	}
 	if count == 0 {
-		query = "INSERT INTO admins(adminname, password) VALUES ('admin', 'password');"
+		query = fmt.Sprintf("INSERT INTO admins(adminname, password, status) VALUES ('%s', '%s', '%s');", os.Getenv("ADMINNAME"), os.Getenv("ADMINPASSWORD"), os.Getenv("STATUS"))
+		fmt.Print("admin insert into database: ")
+		fmt.Println(query)
 		_, err = db.Exec(query)
 		if err != nil {
 			panic(err)
