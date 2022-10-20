@@ -23,6 +23,7 @@ window.onload = function() {
             } else {
                 no.style.backgroundColor = "#4f4f4fff"
             }
+            console.log(JSON.parse(data).name)
         });
     }).catch((error)=>{
         console.log(error)

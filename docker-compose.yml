@@ -26,6 +26,6 @@ services:
       - PGDATABASE=$PGDATABASE
       - PGPASSWORD=$PGPASSWORD
       - PGPORT=$PGPORT
-      - ADMINNAME=admin
-      - ADMINPASSWORD=password
-      - STATUS=enroute
+      - ADMINNAME=$ADMINNAME
+      - ADMINPASSWORD=$ADMINPASSWORD
+      - STATUS=$STATUS

@@ -14,8 +14,6 @@ func handlers() {
 		backend.GET("/loadstatus", func(c *gin.Context) {
 			var status string
 			query := fmt.Sprintf("SELECT status FROM admins WHERE adminname = '%s';", os.Getenv("ADMINNAME"))
-			fmt.Print("status select query: ")
-			fmt.Println(query)
 			row := db.QueryRow(query)
 			err = row.Scan(&status)
 			if err != nil {
@@ -23,6 +21,7 @@ func handlers() {
 			}
 			c.JSON(http.StatusOK, gin.H{
 				"status": status,
+				"name":   os.Getenv("ADMINNAME"),
 			})
 		})
 	}
