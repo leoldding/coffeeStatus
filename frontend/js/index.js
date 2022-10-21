@@ -8,7 +8,7 @@ soloText = document.getElementById("solo-text");
 /* update element values when website loads in  */
 window.onload = function() {
     /* retrieve current status from backend */
-    fetch("backend/loadstatus", {
+    fetch("backend/loadStatus", {
         method: "GET",
     }).then((response) => {
         response.text().then(function (data) {
@@ -29,7 +29,7 @@ window.onload = function() {
             } else {
                 yes.style.backgroundColor = "gray";
                 for (const child of yes.children) {
-                    child.style.color = "white";
+                    child.style.color = "silver";
                 }
             }
 
@@ -48,7 +48,7 @@ window.onload = function() {
             } else {
                 enroute.style.backgroundColor = "gray";
                 for (const child of enroute.children) {
-                    child.style.color = "white";
+                    child.style.color = "silver";
                 }
             }
 
@@ -67,7 +67,7 @@ window.onload = function() {
             } else {
                 no.style.backgroundColor = "gray";
                 for (const child of no.children) {
-                    child.style.color = "white";
+                    child.style.color = "silver";
                 }
             }
         });
