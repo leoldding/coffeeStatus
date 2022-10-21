@@ -10,11 +10,11 @@ import (
 
 func handlers() {
 	// start each handler
-	loadstatus()
+	loadStatus()
 }
 
-func loadstatus() {
-	router.GET("/backend/loadstatus", func(c *gin.Context) {
+func loadStatus() {
+	router.GET("/backend/loadStatus", func(c *gin.Context) {
 		// retrieve status from database
 		var status string
 		query := fmt.Sprintf("SELECT status FROM admins WHERE adminname = '%s';", os.Getenv("ADMINNAME"))
