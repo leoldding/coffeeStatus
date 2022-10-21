@@ -21,7 +21,6 @@ func handlers() {
 			}
 			c.JSON(http.StatusOK, gin.H{
 				"status": status,
-				"name":   os.Getenv("ADMINNAME"),
 			})
 		})
 	}

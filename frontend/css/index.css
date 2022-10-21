@@ -1,6 +1,12 @@
 *
 {
     font-family: Optima, Helvetica, sans-serif;
+    color: white;
+}
+
+body
+{
+    background-color: #4f4f4fff;
 }
 
 #title
@@ -39,31 +45,6 @@
 .horiz
 {
     display: none;
-}
-
-#yes
-{
-    background-color: #4cff4c;
-}
-
-#enroute
-{
-    background-color: #ffff56;
-}
-
-#no
-{
-    background-color: #ff3434;
-}
-
-#all
-{
-    background-color: mediumturquoise;
-}
-
-.dim
-{
-    background-color: #4f4f4f;
 }
 
 #login

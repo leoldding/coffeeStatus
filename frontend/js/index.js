@@ -10,20 +10,39 @@ window.onload = function() {
             status = JSON.parse(data).status;
             if (status == "yes") {
                 yes.style.backgroundColor = "#4cff4c";
+                for (const child of yes.children) {
+                    child.style.color = "black";
+                }
             } else {
-                yes.style.backgroundColor = "#4f4f4fff"
+                yes.style.backgroundColor = "gray";
+                for (const child of yes.children) {
+                    child.style.color = "white";
+                }
             }
+
             if (status == "enroute") {
                 enroute.style.backgroundColor = "#ffff56";
+                for (const child of enroute.children) {
+                    child.style.color = "black";
+                }
             } else {
-                enroute.style.backgroundColor = "#4f4f4fff";
+                enroute.style.backgroundColor = "gray";
+                for (const child of enroute.children) {
+                    child.style.color = "white";
+                }
             }
+
             if (status == "no") {
                 no.style.backgroundColor = "#ff3434";
+                for (const child of no.children) {
+                    child.style.color = "black";
+                }
             } else {
-                no.style.backgroundColor = "#4f4f4fff"
+                no.style.backgroundColor = "gray";
+                for (const child of no.children) {
+                    child.style.color = "white";
+                }
             }
-            console.log(JSON.parse(data).name)
         });
     }).catch((error)=>{
         console.log(error)

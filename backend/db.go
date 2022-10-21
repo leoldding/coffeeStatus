@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/lib/pq"
+	"golang.org/x/crypto/bcrypt"
 	"log"
 	"os"
 )
@@ -25,12 +26,6 @@ func initDB() {
 		panic(err)
 	}
 
-	query = "DROP TABLE IF EXISTS admins"
-	_, err = db.Exec(query)
-	if err != nil {
-		panic(err)
-	}
-
 	query = "CREATE TABLE IF NOT EXISTS admins(adminname VARCHAR(40) PRIMARY KEY, password VARCHAR(40), status VARCHAR(40));"
 	_, err = db.Exec(query)
 	if err != nil {
@@ -44,7 +39,8 @@ func initDB() {
 		log.Fatal(err)
 	}
 	if count == 0 {
-		query = fmt.Sprintf("INSERT INTO admins(adminname, password, status) VALUES ('%s', '%s', '%s');", os.Getenv("ADMINNAME"), os.Getenv("ADMINPASSWORD"), os.Getenv("STATUS"))
+		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(os.Getenv("ADMINPASSWORD")), 8)
+		query = fmt.Sprintf("INSERT INTO admins(adminname, password, status) VALUES ('%s', '%s', '%s');", os.Getenv("ADMINNAME"), hashedPassword, os.Getenv("STATUS"))
 		_, err = db.Exec(query)
 		if err != nil {
 			panic(err)
