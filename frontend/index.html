@@ -9,20 +9,21 @@
 </head>
 <body>
     <h1 id="title">Is Leo at Think Coffee?</h1>
-    <div class="center vert" id="yes">
+    <div class="center vert" id="yes-container">
         <p class="status">Yes</p>
         <p class="substatus hide">But leaving in <span class="substatus" id="leaving"></span></p>
     </div>
-    <div class="center vert" id="enroute">
+    <div class="center vert" id="en-route-container">
         <p class="status">En Route</p>
         <p class="substatus hide">ETA: <span class="substatus" id="eta">20 min</span></p>
     </div>
-    <div class="center vert" id="no">
+    <div class="center vert" id="no-container">
         <p class="status">No</p>
     </div>
 
-    <div class="center horiz" id="all">
-        <p class="status">Temp</p>
+    <div class="center horiz" id="solo-container">
+        <p class="status" id="solo-text"></p>
+        <p class="substatus hide"></p>
     </div>
 
     <a href="html/login.html" id="login">Admin Login</a>
