@@ -9,23 +9,31 @@
 </head>
 <body>
     <h1 id="title">Is Leo at Think Coffee?</h1>
-    <div class="center vert" id="yes-container">
+
+    <!-- container to display the "Yes" status on smaller screens -->
+    <div class="container vert" id="yes-container">
         <p class="status">Yes</p>
         <p class="substatus hide">But leaving in <span class="substatus" id="leaving"></span></p>
     </div>
-    <div class="center vert" id="en-route-container">
+
+    <!--container to display the "En Route" status on smaller screens -->
+    <div class="container vert" id="en-route-container">
         <p class="status">En Route</p>
         <p class="substatus hide">ETA: <span class="substatus" id="eta">20 min</span></p>
     </div>
-    <div class="center vert" id="no-container">
+
+    <!-- container to display the "No" status on smaller screens -->
+    <div class="container vert" id="no-container">
         <p class="status">No</p>
     </div>
 
-    <div class="center horiz" id="solo-container">
+    <!-- container to display the currently active status on larger screens -->
+    <div class="container horiz" id="solo-container">
         <p class="status" id="solo-text"></p>
         <p class="substatus hide"></p>
     </div>
 
+    <!-- link to take user to admin login page -->
     <a href="html/login.html" id="login">Admin Login</a>
 
     <script src = "js/index.js"></script>

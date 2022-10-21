@@ -13,13 +13,16 @@ var db *sql.DB
 var err error
 
 func initDB() {
+	// compile all Postgres database information into string
 	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+"password=%s dbname=%s sslmode=disable", os.Getenv("PGHOST"), os.Getenv("PGPORT"), os.Getenv("PGUSER"), os.Getenv("PGPASSWORD"), os.Getenv("PGDATABASE"))
 
+	// connect to Postgres database
 	db, err = sql.Open("postgres", psqlInfo)
 	if err != nil {
 		panic(err)
 	}
 
+	// create tables on initial setup
 	query := "CREATE TABLE IF NOT EXISTS sessions(sessionname VARCHAR(40) PRIMARY KEY, username VARCHAR(40));"
 	_, err = db.Exec(query)
 	if err != nil {
@@ -32,6 +35,7 @@ func initDB() {
 		panic(err)
 	}
 
+	// add admin account on initial setup
 	var count int
 	row := db.QueryRow("SELECT COUNT(*) FROM admins")
 	err = row.Scan(&count)

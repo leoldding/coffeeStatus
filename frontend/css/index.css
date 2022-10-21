@@ -31,7 +31,7 @@ body
     font-size: 4vw;
 }
 
-.center
+.container
 {
     border-radius: 25px;
     text-align: center;
@@ -42,6 +42,7 @@ body
     margin-bottom: 4vh;
 }
 
+/* links to single container that appears only when screen larger than 769px (media query) */
 .horiz
 {
     display: none;
@@ -55,6 +56,7 @@ body
     bottom: 0;
 }
 
+/* changes display from three containers to one container to fit screen better */
 @media (min-width: 769px)
 {
     .vert
