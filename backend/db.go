@@ -29,6 +29,12 @@ func initDB() {
 		panic(err)
 	}
 
+	query = "DROP TABLE IF EXISTS admins;"
+	_, err = db.Exec(query)
+	if err != nil {
+		panic(err)
+	}
+
 	query = "CREATE TABLE IF NOT EXISTS admins(adminname VARCHAR(40) PRIMARY KEY, password TEXT, status VARCHAR(40));"
 	_, err = db.Exec(query)
 	if err != nil {
