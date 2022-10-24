@@ -3,9 +3,11 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"os"
+	"time"
 )
 
 func handlers() {
@@ -72,10 +74,22 @@ func login() {
 						"status": "Invalid Password",
 					})
 				} else {
+
+					sessionToken := uuid.New().String()
+					expiresAt := time.Now().Add(5 * time.Minute)
+
+					_, err = db.Exec("INSERT INTO sessions(sessionname, username, expiration) VALUES ($1, $2, $3);", sessionToken, creds.Username, expiresAt)
+					if err != nil {
+						panic(err)
+					}
+
+					c.SetCookie("sessionToken", sessionToken, 300, "/", os.Getenv("DOMAIN"), false, true)
+
 					// return valid status if passwords match
 					c.JSON(http.StatusOK, gin.H{
 						"status": "Valid Credentials",
 					})
+
 				}
 			}
 		}

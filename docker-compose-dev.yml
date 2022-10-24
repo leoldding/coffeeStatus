@@ -38,6 +38,7 @@ services:
       - ADMINNAME=admin
       - ADMINPASSWORD=password
       - STATUS=enroute
+      - DOMAIN=localhost
     depends_on:
       postgres:
         condition: service_healthy

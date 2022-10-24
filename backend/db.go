@@ -22,14 +22,15 @@ func initDB() {
 		panic(err)
 	}
 
-	// create tables on initial setup
-	query := "CREATE TABLE IF NOT EXISTS sessions(sessionname VARCHAR(40) PRIMARY KEY, username VARCHAR(40));"
+	//DELETE THIS
+	query := "DROP TABLE IF EXISTS sessions"
 	_, err = db.Exec(query)
 	if err != nil {
 		panic(err)
 	}
 
-	query = "DROP TABLE IF EXISTS admins;"
+	// create tables on initial setup
+	query = "CREATE TABLE IF NOT EXISTS sessions(sessionname TEXT PRIMARY KEY, username VARCHAR(40), expiration TIMESTAMP WITH TIME ZONE);"
 	_, err = db.Exec(query)
 	if err != nil {
 		panic(err)
