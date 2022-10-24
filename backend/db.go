@@ -29,7 +29,7 @@ func initDB() {
 		panic(err)
 	}
 
-	query = "CREATE TABLE IF NOT EXISTS admins(adminname VARCHAR(40) PRIMARY KEY, password VARCHAR(40), status VARCHAR(40));"
+	query = "CREATE TABLE IF NOT EXISTS admins(adminname VARCHAR(40) PRIMARY KEY, password TEXT, status VARCHAR(40));"
 	_, err = db.Exec(query)
 	if err != nil {
 		panic(err)
@@ -37,7 +37,8 @@ func initDB() {
 
 	// add admin account on initial setup
 	var count int
-	row := db.QueryRow("SELECT COUNT(*) FROM admins")
+	query = "SELECT COUNT(*) FROM admins"
+	row := db.QueryRow(query)
 	err = row.Scan(&count)
 	if err != nil {
 		log.Fatal(err)
