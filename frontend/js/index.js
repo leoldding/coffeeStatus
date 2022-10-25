@@ -12,7 +12,12 @@ window.onload = function() {
         method: "GET",
     }).then((response) => {
         response.text().then(function (data) {
-            status = JSON.parse(data).status; /* status value from backend */
+            if (response.status == 200) {
+                status = JSON.parse(data).status; /* status value from backend */
+            }
+            else {
+                status = "no" /* default value set to 'no' in case of server error */
+            }
 
             /* changes for the "Yes" and solo containers based on status value */
             if (status == "yes") {

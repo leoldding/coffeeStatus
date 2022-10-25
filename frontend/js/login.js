@@ -38,7 +38,7 @@ loginButton.addEventListener('click',function()  {
                 /* redirect if validation is successful */
                 window.location = "../html/admin.html";
             }
-            else {
+            else if (response.status == 401) {
                 /* display validation error */
                 alert(status);
             }
@@ -48,11 +48,13 @@ loginButton.addEventListener('click',function()  {
     });
 })
 
+/* check if cookie exists already */
 window.onload = function() {
     fetch("../backend/checkCookie", {
         method: "GET",
     }).then((response) => {
         if (response.status == 200) {
+            /* redirect to control page if cookie already exists */
             window.location = "../html/admin.html";
         }
     }).catch((error) => {
