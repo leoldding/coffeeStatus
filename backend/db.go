@@ -22,15 +22,8 @@ func initDB() {
 		panic(err)
 	}
 
-	//DELETE THIS
-	query := "DROP TABLE IF EXISTS sessions"
-	_, err = db.Exec(query)
-	if err != nil {
-		panic(err)
-	}
-
 	// create tables on initial setup
-	query = "CREATE TABLE IF NOT EXISTS sessions(sessionname TEXT PRIMARY KEY, username VARCHAR(40), expiration TIMESTAMP WITH TIME ZONE);"
+	query := "CREATE TABLE IF NOT EXISTS sessions(sessionname TEXT PRIMARY KEY, username VARCHAR(40), expiration TIMESTAMP WITH TIME ZONE);"
 	_, err = db.Exec(query)
 	if err != nil {
 		panic(err)
@@ -42,7 +35,7 @@ func initDB() {
 		panic(err)
 	}
 
-	// add admin account on initial setup
+	// add admin.js account on initial setup
 	var count int
 	query = "SELECT COUNT(*) FROM admins"
 	row := db.QueryRow(query)

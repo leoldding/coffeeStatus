@@ -14,6 +14,7 @@ func handlers() {
 	// start each handler
 	loadStatus()
 	login()
+	checkCookie()
 }
 
 type Credentials struct {
@@ -93,5 +94,59 @@ func login() {
 				}
 			}
 		}
+	})
+}
+
+func checkCookie() {
+	router.GET("/backend/checkCookie", func(c *gin.Context) {
+		cookie, err := c.Cookie("sessionToken")
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, nil)
+			return
+		}
+
+		var expiration time.Time
+		query := fmt.Sprintf("SELECT expiration FROM sessions WHERE sessionname = '%s';", cookie)
+		row := db.QueryRow(query)
+		err = row.Scan(&expiration)
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, nil)
+			return
+		}
+
+		if expiration.Before(time.Now()) {
+			query = fmt.Sprintf("DELETE FROM sessions WHERE sessioname = '%s';", cookie)
+			c.JSON(http.StatusUnauthorized, nil)
+			return
+		}
+
+		sessionToken := uuid.New().String()
+		var username string
+		expiresAt := time.Now().Add(5 * time.Minute)
+
+		query = fmt.Sprintf("SELECT username FROM sessions WHERE sessionname = '%s';", cookie)
+		row = db.QueryRow(query)
+		err = row.Scan(&username)
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, nil)
+			return
+		}
+
+		_, err = db.Exec("INSERT INTO sessions(sessionname, username, expiration) VALUES ($1, $2, $3);", sessionToken, username, expiresAt)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, nil)
+			panic(err)
+		}
+
+		_, err = db.Exec("DELETE FROM sessions WHERE sessionname = $1;", cookie)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, nil)
+			panic(err)
+		}
+
+		c.SetCookie("sessionToken", sessionToken, 300, "/", os.Getenv("DOMAIN"), false, true)
+
+		c.JSON(http.StatusOK, nil)
+		return
 	})
 }

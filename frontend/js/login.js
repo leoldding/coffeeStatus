@@ -48,6 +48,18 @@ loginButton.addEventListener('click',function()  {
     });
 })
 
+window.onload = function() {
+    fetch("../backend/checkCookie", {
+        method: "GET",
+    }).then((response) => {
+        if (response.status == 200) {
+            window.location = "../html/admin.html";
+        }
+    }).catch((error) => {
+        console.log(error)
+    })
+}
+
 function containsSpecialChars(str) {
     const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     return specialChars.test(str);
