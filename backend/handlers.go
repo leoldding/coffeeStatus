@@ -34,10 +34,21 @@ func loadStatus() {
 			return
 		}
 
+		var substatus string
+		row = db.QueryRow("SELECT substatus FROM status;")
+		err = row.Scan(&substatus)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, nil)
+			panic(err)
+			return
+		}
+
 		// return JSON data to front with current status
 		c.JSON(http.StatusOK, gin.H{
-			"status": status,
+			"status":    status,
+			"substatus": substatus,
 		})
+
 		return
 	})
 }

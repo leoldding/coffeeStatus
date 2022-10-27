@@ -22,8 +22,6 @@ func initDB() {
 		return
 	}
 
-	_, err = db.Exec("DROP TABLE IF EXISTS sessions;")
-	_, err = db.Exec("DROP TABLE IF EXISTS admins;")
 	_, err = db.Exec("DROP TABLE IF EXISTS status;")
 
 	// create tables on initial setup
@@ -70,7 +68,7 @@ func initDB() {
 		return
 	}
 	if count == 0 {
-		_, err = db.Exec("INSERT INTO status(status, substatus) VALUES ($1, $2);", "yes", nil)
+		_, err = db.Exec("INSERT INTO status(status, substatus) VALUES ($1, $2);", "yes", "none")
 		if err != nil {
 			panic(err)
 			return
