@@ -36,3 +36,7 @@ The control page allows me to actually change the values status values displayed
 ***Go***, mainly the ***Gin*** package, was used to handle the backend which included receiving and handling HTTP requests, handling password and session authentication, and manipulating the database.
 
 ***PostgreSQL*** was used to hold all the data which includes the current status, admin account, and session values.   
+
+***AWS*** used to host the project (ElasticBeanstalk and Relational Database Service). 
+
+***Github Workflows/Actions*** used to automatically deploy to AWS.
