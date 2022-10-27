@@ -16,11 +16,6 @@ body
     text-align: center;
 }
 
-.hide
-{
-    display: none;
-}
-
 .status
 {
     font-size: 6vw;
@@ -29,6 +24,7 @@ body
 .substatus
 {
     font-size: 3vw;
+    margin: 0;
 }
 
 .container

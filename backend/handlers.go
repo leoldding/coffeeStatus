@@ -13,6 +13,7 @@ func handlers() {
 	// start each handler
 	loadStatus()
 	login()
+	logout()
 	checkCookie()
 }
 
@@ -102,13 +103,34 @@ func login() {
 	})
 }
 
+func logout() {
+	router.GET("/backend/logout", func(c *gin.Context) {
+		// check if cookie exists
+		cookie, err := c.Cookie("sessionToken")
+		if err != nil {
+			c.JSON(http.StatusNotFound, nil)
+			return
+		}
+
+		// delete cookie from sessions database
+		_, err = db.Exec("DELETE FROM sessions WHERE sessionname = $1;", cookie)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, nil)
+			return
+		}
+
+		// unset cookie within browser
+		c.SetCookie("sessionToken", "", -1, "/", os.Getenv("DOMAIN"), false, true)
+	})
+}
+
 func checkCookie() {
 	router.GET("/backend/checkCookie", func(c *gin.Context) {
 		// retrieve cookie
 		cookie, err := c.Cookie("sessionToken")
 		// check if cookie exists
 		if err != nil {
-			c.JSON(http.StatusUnauthorized, nil)
+			c.JSON(http.StatusNotFound, nil)
 			return
 		}
 

@@ -4,12 +4,27 @@
     <meta name = "author" content = "Leo Ding" />
     <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
     <meta charset = "utf-8">
+    <link rel = "stylesheet" type = "text/css" href = "../css/admin.css"/>
     <title>Coffee Admin Page</title>
 </head>
 <body>
     <h1>
         ADMIN CONTROL PAGE
     </h1>
+
+    <label>Select status:</label> <br>
+    <select list="statuses" id="statuses">
+        <option value="yes">Yes</option>
+        <option value="enroute">En Route</option>
+        <option value="no">No</option>
+    </select> <br> <br>
+
+    <label id="substatus-label">Enter substatus:</label> <br>
+    <input type="text" id="substatus"> <br> <br>
+
+    <input type="submit" value="Login">
+
+    <a href="../index.html" id="logout">Logout</a>
 
     <script src = "../js/admin.js"></script>
 </body>
