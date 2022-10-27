@@ -12,6 +12,7 @@ import (
 func handlers() {
 	// start each handler
 	loadStatus()
+	updateStatus()
 	login()
 	logout()
 	checkCookie()
@@ -20,6 +21,11 @@ func handlers() {
 type Credentials struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
+}
+
+type Update struct {
+	Status    string `json:"status"`
+	Substatus string `json:"substatus"`
 }
 
 func loadStatus() {
@@ -34,6 +40,7 @@ func loadStatus() {
 			return
 		}
 
+		// retrieve substatus from database
 		var substatus string
 		row = db.QueryRow("SELECT substatus FROM status;")
 		err = row.Scan(&substatus)
@@ -53,8 +60,30 @@ func loadStatus() {
 	})
 }
 
+func updateStatus() {
+	router.POST("/backend/updateStatus", func(c *gin.Context) {
+		// retrieve JSON information
+		var update Update
+		if c.BindJSON(&update) != nil {
+			c.JSON(http.StatusBadRequest, nil)
+			return
+		}
+
+		// change values in database
+		_, err = db.Exec("UPDATE status SET status = $1, substatus = $2;", update.Status, update.Substatus)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, nil)
+			return
+		}
+
+		c.JSON(http.StatusOK, nil)
+		return
+	})
+}
+
 func login() {
 	router.POST("/backend/login", func(c *gin.Context) {
+		// retrieve JSON information
 		var creds Credentials
 		if c.BindJSON(&creds) != nil {
 			c.JSON(http.StatusBadRequest, nil)

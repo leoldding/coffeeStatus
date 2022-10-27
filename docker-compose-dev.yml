@@ -37,7 +37,6 @@ services:
       - PGPORT=5432
       - ADMINNAME=admin
       - ADMINPASSWORD=password
-      - STATUS=enroute
       - DOMAIN=localhost
     depends_on:
       postgres:

@@ -28,5 +28,4 @@ services:
       - PGPORT=$PGPORT
       - ADMINNAME=$ADMINNAME
       - ADMINPASSWORD=$ADMINPASSWORD
-      - STATUS=$STATUS
       - DOMAIN=coffeestatus-env.eba-nr2mwmnr.us-east-1.elasticbeanstalk.com

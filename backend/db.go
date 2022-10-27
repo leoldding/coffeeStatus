@@ -22,8 +22,6 @@ func initDB() {
 		return
 	}
 
-	_, err = db.Exec("DROP TABLE IF EXISTS status;")
-
 	// create tables on initial setup
 	_, err = db.Exec("CREATE TABLE IF NOT EXISTS sessions(sessionname TEXT PRIMARY KEY, username VARCHAR(40), expiration TIMESTAMP WITH TIME ZONE);")
 	if err != nil {
