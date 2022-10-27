@@ -26,7 +26,7 @@ func loadStatus() {
 	router.GET("/backend/loadStatus", func(c *gin.Context) {
 		// retrieve status from database
 		var status string
-		row := db.QueryRow("SELECT status FROM admins WHERE adminname = $1;", os.Getenv("ADMINNAME"))
+		row := db.QueryRow("SELECT status FROM status;")
 		err = row.Scan(&status)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, nil)
@@ -121,6 +121,7 @@ func logout() {
 
 		// unset cookie within browser
 		c.SetCookie("sessionToken", "", -1, "/", os.Getenv("DOMAIN"), false, true)
+		return
 	})
 }
 
@@ -130,7 +131,7 @@ func checkCookie() {
 		cookie, err := c.Cookie("sessionToken")
 		// check if cookie exists
 		if err != nil {
-			c.JSON(http.StatusNotFound, nil)
+			c.JSON(http.StatusUnauthorized, nil)
 			return
 		}
 

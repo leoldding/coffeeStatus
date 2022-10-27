@@ -5,7 +5,6 @@ import (
 	"fmt"
 	_ "github.com/lib/pq"
 	"golang.org/x/crypto/bcrypt"
-	"log"
 	"os"
 )
 
@@ -20,35 +19,63 @@ func initDB() {
 	db, err = sql.Open("postgres", psqlInfo)
 	if err != nil {
 		panic(err)
+		return
 	}
+
+	_, err = db.Exec("DROP TABLE IF EXISTS sessions;")
+	_, err = db.Exec("DROP TABLE IF EXISTS admins;")
+	_, err = db.Exec("DROP TABLE IF EXISTS status;")
 
 	// create tables on initial setup
-	query := "CREATE TABLE IF NOT EXISTS sessions(sessionname TEXT PRIMARY KEY, username VARCHAR(40), expiration TIMESTAMP WITH TIME ZONE);"
-	_, err = db.Exec(query)
+	_, err = db.Exec("CREATE TABLE IF NOT EXISTS sessions(sessionname TEXT PRIMARY KEY, username VARCHAR(40), expiration TIMESTAMP WITH TIME ZONE);")
 	if err != nil {
 		panic(err)
+		return
 	}
 
-	query = "CREATE TABLE IF NOT EXISTS admins(adminname VARCHAR(40) PRIMARY KEY, password TEXT, status VARCHAR(40));"
-	_, err = db.Exec(query)
+	_, err = db.Exec("CREATE TABLE IF NOT EXISTS admins(adminname VARCHAR(40) PRIMARY KEY, password TEXT);")
 	if err != nil {
 		panic(err)
+		return
 	}
 
-	// add admin.js account on initial setup
+	_, err = db.Exec("CREATE TABLE IF NOT EXISTS status(status VARCHAR(40), substatus TEXT);")
+	if err != nil {
+		panic(err)
+		return
+	}
+
+	// add admin account on initial setup
 	var count int
-	query = "SELECT COUNT(*) FROM admins"
-	row := db.QueryRow(query)
+	row := db.QueryRow("SELECT COUNT(*) FROM admins;")
 	err = row.Scan(&count)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
+		return
 	}
 	if count == 0 {
 		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(os.Getenv("ADMINPASSWORD")), 8)
-		query = fmt.Sprintf("INSERT INTO admins(adminname, password, status) VALUES ('%s', '%s', '%s');", os.Getenv("ADMINNAME"), hashedPassword, os.Getenv("STATUS"))
-		_, err = db.Exec(query)
+		_, err = db.Exec("INSERT INTO admins(adminname, password) VALUES ($1, $2);", os.Getenv("ADMINNAME"), hashedPassword)
 		if err != nil {
 			panic(err)
+			return
 		}
 	}
+
+	// add initial status
+	row = db.QueryRow("SELECT COUNT(*) FROM status;")
+	err = row.Scan(&count)
+	if err != nil {
+		panic(err)
+		return
+	}
+	if count == 0 {
+		_, err = db.Exec("INSERT INTO status(status, substatus) VALUES ($1, $2);", "yes", nil)
+		if err != nil {
+			panic(err)
+			return
+		}
+	}
+
+	return
 }
