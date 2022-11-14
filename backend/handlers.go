@@ -5,7 +5,6 @@ import (
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
-	"os"
 	"time"
 )
 
@@ -133,7 +132,7 @@ func login() {
 		}
 
 		// set new cookie
-		c.SetCookie("sessionToken", sessionToken, 300, "/", os.Getenv("DOMAIN"), false, true)
+		c.SetCookie("sessionToken", sessionToken, 300, "/", "", false, true)
 
 		// return valid status if passwords match
 		c.JSON(http.StatusOK, gin.H{
@@ -160,7 +159,7 @@ func logout() {
 		}
 
 		// unset cookie within browser
-		c.SetCookie("sessionToken", "", -1, "/", os.Getenv("DOMAIN"), false, true)
+		c.SetCookie("sessionToken", "", -1, "/", "", false, true)
 		return
 	})
 }
@@ -221,7 +220,7 @@ func checkCookie() {
 		}
 
 		// set new cookie in browser (overrides old cookie)
-		c.SetCookie("sessionToken", sessionToken, 300, "/", os.Getenv("DOMAIN"), false, true)
+		c.SetCookie("sessionToken", sessionToken, 300, "/", "", false, true)
 
 		c.JSON(http.StatusOK, nil)
 		return
