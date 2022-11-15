@@ -3,7 +3,7 @@ services:
   frontend:
     restart: always
     build:
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       context: ./frontend
     volumes:
       - ./frontend:/usr/share/nginx/html
@@ -15,7 +15,7 @@ services:
   backend:
     restart: always
     build:
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       context: ./backend
     volumes:
       - ./backend:/app
